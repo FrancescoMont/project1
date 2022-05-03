@@ -6,11 +6,19 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea, IconButton, Skeleton } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Result } from "../../models/Games";
+import { useNavigate } from "react-router-dom";
 
-const MyCard: FC<{game: Result, selected? : (game: Result) => void, isSelected:boolean, isLoading:boolean}> = (props) =>{
-    const {game, selected,isSelected, isLoading = false} = props;
-    return (<Card sx={{ maxWidth: 345 }}>
-      {isLoading?<CardActionArea>
+const MyCard: FC<{game: Result, selected? : (game: Result) => void, isSelected?:boolean, isLoading:boolean}> = (props) =>{
+    const {game, isLoading = false} = props;
+    const navigate = useNavigate();
+
+
+
+    return (
+    <Card sx={{ maxWidth: 345 }}>
+      {isLoading?
+      <CardActionArea onClick={() => navigate(String(game.id))}>
+        
         <CardMedia
           component="img"
           image={game.background_image}
@@ -21,11 +29,8 @@ const MyCard: FC<{game: Result, selected? : (game: Result) => void, isSelected:b
             {game.name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            prova
+            {game.released}
           </Typography>
-          <IconButton onClick={()=> selected && selected(game)} aria-label="add to favorites">
-            <FavoriteIcon style={{color: isSelected ? 'red' : 'grey'}}/>
-          </IconButton> 
         </CardContent>
       </CardActionArea>: <Skeleton  variant="rectangular" width={210} height={118} /> }
       

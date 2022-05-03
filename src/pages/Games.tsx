@@ -1,4 +1,5 @@
-import { Button, Grid } from '@mui/material';
+import { Button, Grid, Pagination, Typography } from '@mui/material';
+import { width } from '@mui/system';
 import React, { useEffect, useState } from 'react'
 import App from '../App'
 import { MyCard } from '../components/card/card';
@@ -10,7 +11,6 @@ export default function Games() {
     const [page ,setPage ] = useState(1);
     const [games , setGames] = useState([] as Result[]);
     const [isLoading, setLoading] = useState(false);
-    const [favourites, setFavourites] = useState([] as object[]);
   
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const loadData = async () => {
@@ -27,33 +27,27 @@ export default function Games() {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[page]);
 
-      const handleNewGame = (game: Result) => {
-        const index = favourites.indexOf(game);
-        index === -1 ? favourites.push(game) : favourites.splice(index,1);
-        setFavourites([...favourites]);
-        console.log(favourites)
-      }
 
     return (
-      <>
-      <Button disabled={page <= 1} onClick={()=> {setPage (page -1)}}>Previus</Button>
-      <p>{page}</p> 
-      <Button onClick={()=> {setPage (page +1)}}>Next</Button>
-      
+      <><div style={{display: 'flex', margin:'10px'}}>
+      <Button variant='contained' disabled={page <= 1} onClick={()=> {setPage (page -1)}}>Previus</Button>
+      <Typography style={{margin:'10px'}}>{page}</Typography>
+      <Button variant='contained' onClick={()=> {setPage (page +1)}}>Next</Button>
+      </div>
       <Grid container spacing={2}>
       {
           games.map(item => <Grid item xs={3}>
             <MyCard game = {item}
-            selected ={handleNewGame}
-            isSelected={favourites.includes(item)}
             isLoading={isLoading}
             />
           </Grid>)
       }
       </Grid>
-      <Button disabled={page <= 1} onClick={()=> {setPage (page -1)}}>Previus</Button>
-      <p>{page}</p> 
-      <Button onClick={()=> {setPage (page +1)}}>Next</Button>
+      <div style={{display: 'flex', margin:'10px'}}>
+      <Button variant='contained' disabled={page <= 1} onClick={()=> {setPage (page -1)}}>Previus</Button>
+      <Typography style={{margin:'10px'}}>{page}</Typography>
+      <Button variant='contained' onClick={()=> {setPage (page +1)}}>Next</Button>
+      </div>
       </>
     );
   }
